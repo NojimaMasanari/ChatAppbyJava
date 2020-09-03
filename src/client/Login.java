@@ -44,9 +44,9 @@ public class Login {
                 sqlPass = rset.getString(1).trim();
             }
             conn.commit();
-            
+
             if (rset != null)
-            rset.close();
+                rset.close();
 
             // user name取得
             if (strPass.equals(sqlPass)) {

@@ -45,7 +45,6 @@ public class Channel extends Thread {
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			output = new OutputStreamWriter(socket.getOutputStream());
 			write("# Welcome to Chat Service System"); // 歓迎の挨拶
-			write("# Please input your name"); // ハンドル名登録
 			handle = input.readLine();
 			System.out.println("new user: " + handle);
 			write("# Thank you for Mr./Ms." + handle + ". Please enjoy!");

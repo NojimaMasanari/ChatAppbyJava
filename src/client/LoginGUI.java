@@ -79,7 +79,7 @@ public final class LoginGUI extends JPanel implements ActionListener, State {
 		loginPanel.add(idtf, gb_constraints);
 		gb_constraints.gridy = 1;
 		loginPanel.add(passpf, gb_constraints);
-		
+
 		gb_constraints.gridy = 2;
 		loginPanel.add(login_btn, gb_constraints);
 		login_btn.addActionListener(this);
@@ -106,7 +106,6 @@ public final class LoginGUI extends JPanel implements ActionListener, State {
 			if (login_instance.doLogin(id, pass) == true) {
 				System.out.println("login success");
 				StateManager.next_panel = UpdatePanel(StateManager.connect_server_panel);
-
 			} else {
 				System.out.println("login unsuccess");
 				caution();

@@ -21,8 +21,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import static client.Constants.*;
-
 public class CreateAccountGUI extends JPanel implements ActionListener, State {
 
 	String id;
@@ -32,6 +30,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener, State {
 	int age;
 
 	JButton createAccountBtn = new JButton("アカウント作成");
+	JButton backLoginBtn = new JButton("ログイン画面へ");
 
 	JTextField idtf = new JTextField();
 	JPasswordField passpf = new JPasswordField();
@@ -87,6 +86,10 @@ public class CreateAccountGUI extends JPanel implements ActionListener, State {
 		loginPanel.add(sex_label, gbc);
 		gbc.gridy = 4;
 		loginPanel.add(age_label, gbc);
+		gbc.insets = new Insets(60, 10, 10, 10);
+		gbc.gridy = 5;
+		loginPanel.add(backLoginBtn, gbc);
+		backLoginBtn.addActionListener(this);
 
 		gbc.gridx = 1;
 		gbc.insets = new Insets(15, 10, 10, 10);
@@ -143,11 +146,13 @@ public class CreateAccountGUI extends JPanel implements ActionListener, State {
 			} else if (name.length() == 0) {
 				JOptionPane.showMessageDialog(dialogFrame, "名前を入力してください");
 			} else if (create_account_instance.createAccount(id, pass, name, sex, age) == true) {
-				System.out.println("created account");
+				JOptionPane.showMessageDialog(dialogFrame, "アカウントを作成しました");
 				StateManager.next_panel = UpdatePanel(StateManager.login_panel);
 			} else {
 				JOptionPane.showMessageDialog(dialogFrame, "再入力してください");
 			}
+		} else if (e.getSource() == backLoginBtn) {
+			StateManager.next_panel = UpdatePanel(StateManager.login_panel);
 		}
 	}
 
@@ -156,7 +161,7 @@ public class CreateAccountGUI extends JPanel implements ActionListener, State {
 		System.out.println("update panel");
 		return panel_name;
 	}
-	
+
 	public static CreateAccountGUI getInstance() {
 		return create_account_panel;
 	}

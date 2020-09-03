@@ -14,8 +14,8 @@ public class Constants {
     public static final String DEFAULT_HOST = "localhost";
     public static final int DEFAULT_PORT = 28000;
 
-    public static final int WIDTH = 450;
-    public static final int HEIGHT = 300;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 450;
 
 	public static final char CONTROL_CHAR = (char) 05;
     public static final char SEPARATE_CHAR = (char) 06;

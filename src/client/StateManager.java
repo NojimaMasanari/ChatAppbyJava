@@ -34,16 +34,19 @@ public class StateManager extends Thread {
     public void run() {
         while (true) {
             if (now_panel != next_panel) {
-                System.out.println(now_panel);
-                System.out.println(next_panel);
-                System.out.println("state change");
                 now_panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
                 next_panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
                 main_frame.changePanel(next_panel);
             }
             now_panel = next_panel;
+            try {
+                //ここで時間をとらないと画面が遷移しないことがある
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
-    
 }

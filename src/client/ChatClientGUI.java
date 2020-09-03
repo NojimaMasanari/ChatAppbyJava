@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 
 import static client.Constants.*;
 
-public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
+public class ChatClientGUI extends JPanel implements Runnable, ActionListener, State {
 
 	JTextField input_area;
 	JTextArea free_area;
@@ -33,9 +33,9 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 	JButton private_but, send_but, receive_but;
 	JTextField private_area;
 
-	int port_for_FTP;
-	String FTP_receive_folder = null;
-	String main_FTP_receive_folder = "";
+	private static int port_for_FTP;
+	private static String FTP_receive_folder = null;
+	private static String main_FTP_receive_folder = "";
 
 	JButton request_but;
 	String request_file_name = null;
@@ -63,8 +63,8 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 		JPanel exit_panel = new JPanel();
 		p.setLayout(new BorderLayout());
 		connect_info_panel.setLayout(new GridLayout(1, 5, 10, 10));
-		exit_panel.add(close_but = new JButton("Close"));
-		exit_panel.add(quit_but = new JButton("Quit"));
+		exit_panel.add(close_but = new JButton("ログアウト"));
+		exit_panel.add(quit_but = new JButton("終了"));
 		p.add("North", connect_info_panel);
 		p.add("Center", exit_panel);
 
@@ -106,6 +106,14 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 		send_but.addActionListener(this);
 		request_but.addActionListener(this);
 
+	}
+
+	public void launchSetFTPServer() {
+		setFTPServer();
+	}
+
+	private static void setFTPServer() {
+
 		try (java.net.Socket socket = new java.net.Socket()) {
 			socket.bind(null);
 			port_for_FTP = socket.getLocalPort();
@@ -117,7 +125,7 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 		filechooser.setDialogTitle("Select Save Folder for FTP");
 		filechooser.setVisible(true);
 
-		int selected = filechooser.showOpenDialog(this);
+		int selected = filechooser.showOpenDialog(chat_client_panel);
 		if (selected == JFileChooser.APPROVE_OPTION) {
 			File file = filechooser.getSelectedFile();
 			FTP_receive_folder = file.getAbsolutePath();
@@ -132,6 +140,7 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 		}
 
 		new FTPReceiveServer(port_for_FTP, FTP_receive_folder);
+
 	}
 
 	public void start() {
@@ -315,6 +324,7 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 		if (e.getSource() == close_but) { // 回線切断を実行
 			stop();
 			clientClose();
+			StateManager.next_panel = UpdatePanel(StateManager.login_panel);
 		} else if (e.getSource() == quit_but) { // アプレットの終了
 			stop();
 			clientClose();
@@ -375,6 +385,12 @@ public class ChatClientGUI extends JPanel implements Runnable, ActionListener {
 			sendRequestFileProcess(fileName);
 		}
 
+	}
+
+	@Override
+	public JPanel UpdatePanel(JPanel next_panel) {
+		System.out.println("update panel");
+		return next_panel;
 	}
 
 	public static ChatClientGUI getInstance() {

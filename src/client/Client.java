@@ -64,7 +64,6 @@ public class Client {
 	}
 
 	public static Client getInstance(){
-		System.out.println(client);
 		return client;
 	}
 

@@ -103,6 +103,7 @@ public final class ConnectServerGUI extends JPanel implements ActionListener, St
 
             if (ConnectServer.clientOpen(host, port))
                 StateManager.chat_client_panel.start();
+                StateManager.chat_client_panel.launchSetFTPServer();
                 StateManager.next_panel = UpdatePanel(StateManager.chat_client_panel);
                 StateManager.chat_client_panel.writeMes(user_name.getText());
 
